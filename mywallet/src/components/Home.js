@@ -4,8 +4,9 @@ import React from 'react'
 function Home() {
   return (
     <div className='content'>
-        <h1 className='frontPageLogo'>Home</h1>
-        <h3>Hey There!</h3>
+
+        <h2>Hey There!</h2>
+        <h4>Welcome to Web3 Wallet</h4>
 
 <Button 
 className='frontPageButton'

@@ -39,7 +39,7 @@ function App() {
         className='dropdown'/>
       </header>
 {/* <CreateAccount setSeedPhrase={setSeedPhrase} setWallet={setWallet}/>        */}
-<WalletView/>
+<Home/>
     </div>
   );
 }

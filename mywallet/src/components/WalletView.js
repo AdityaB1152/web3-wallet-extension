@@ -1,5 +1,7 @@
 import { Divider, Tabs, Tooltip } from 'antd'
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function WalletView({
     wallet , 
@@ -11,6 +13,12 @@ function WalletView({
 {
 
 const wallet1 = "0x123qw8rupq938rypq98wrhypq398rhpq3r8hpq3"
+
+const navigate = useNavigate();
+const [fetching , setFetching] = useState(false)
+const [tokens ,setTokens] = useState(null);
+const [nfts , setNfts] = useState(null);
+const [balance , setBalance] = useState(0);
 
 const items = [
   {
@@ -41,6 +49,47 @@ const items = [
     ),
   },
 ]
+
+const getAccountTokens = async () => {
+
+  setFetching(true);
+
+  const res = await axios.get('http://localhost:3001/getTokens',{
+    params:{
+      userAddress:wallet,
+      chain:selectedChain,
+    },
+  });
+
+  const response = res.data;
+
+  if(response.tokens.length > 0){
+    setTokens(response.length);
+  }
+
+  if(response.nfts.length > 0){
+    setNfts(response.length);
+  }
+
+  setBalance(response.balance);
+  setFetching(false);
+}
+
+useEffect(()=>{
+  if(!wallet || !selectedChain) return;
+  setNfts(null);
+  setTokens(null);
+  setBalance(0);
+  getAccountTokens();
+} , []);
+
+useEffect(()=>{
+  if(!wallet) return;
+  setNfts(null);
+  setTokens(null);
+  setBalance(0);
+  getAccountTokens();
+},[selectedChain]);
 
   return (
     <div>
